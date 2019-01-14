@@ -1,1 +1,1 @@
-# Curso-JS-React: aca se podran enviar las consultas, dudas o inquietudes del curso de Ract + JS.
+# Curso-JS-React: en "Issues" se podran enviar consultas, dudas o inquietudes del curso de Ract + JS.
