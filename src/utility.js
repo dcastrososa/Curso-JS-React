@@ -15,3 +15,22 @@ export const spaceValidation = value => {
 export const success = text => {
   message.success(text);
 };
+
+export const error = text => {
+  message.error(text);
+};
+
+export const searchIndexCars = (key, cars) => {
+  let index = -1;
+  cars.forEach((car, i) => {
+    if (car.key === key) {
+      index = i;
+      return;
+    }
+  })
+
+  if (index === -1) {
+    throw "No existe este carro en el arreglo.";
+  }
+  return index;
+}

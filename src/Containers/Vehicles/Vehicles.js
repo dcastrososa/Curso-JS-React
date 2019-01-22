@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Modal, Button, Popconfirm } from 'antd';
 import { Cars } from './../../cars';
-import { success } from './../../utility';
+import { success, error, searchIndexCars } from './../../utility';
 
 const { Column, ColumnGroup } = Table;
 
@@ -26,11 +26,17 @@ class Vehicles extends React.Component {
     this.setState({cars: data})
   }
 
-  delete(index) {
+  delete(key) {
     let cars = [...this.state.cars];
-    cars.splice(index, 1);
-    this.setState({cars: cars});
-    success('El vehiculo ha sido eliminado de la lista.')
+
+    try {
+      const index = searchIndexCars(key, cars);
+      cars.splice(index, 1);
+      this.setState({cars: cars});
+      success('El vehiculo ha sido eliminado de la lista.')
+    }catch(err) {
+      error('Vaya ;(, algo salio mal')
+    }
   }
 
   switchFormNewVehicle() {
