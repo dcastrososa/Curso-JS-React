@@ -4,7 +4,7 @@ Simplemente bajan el proyecto y dentro de la carpeta del mismo ejecutan los coma
 1) npm install
 2) npm start
 
-Cualquier inquietud o consulta técnica, no duden en darlas de altas!
+Cualquier inquietud o consulta técnica, no duden en darla de altas!
 ------------------------------------------------------------------
 
 <br/><br/><br/><br/><br/><br/><br/><br/>
