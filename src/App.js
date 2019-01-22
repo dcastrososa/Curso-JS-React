@@ -7,8 +7,26 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = { loading: false };
+  }
+
+  componentDidMount() {
+    //EJEMPLO: login
+    const ejUsuario="luciano";
+    const ejClave="sss000";
+    if (Cars.user === ejUsuario && Cars.pass === ejClave){
+      //LoginOK! redirecciono a la pagina de listado!!!
+      console.log("login ok!")
+    }else{
+      console.log("login error")
+      //Genero un error:
+      //throw new Error("Usuario y pass invalido")
+      //y muestro el mensaje
+    }
+
     let cars = Cars.cars;
     console.log(cars,"CARS1")
+    //EJEMPLO: alta de de automovil
     Cars.insertCar({
       brand: "ford",
       year: "2020",
@@ -16,11 +34,6 @@ class App extends React.Component {
       maxspeed: "111"
     });
     console.log(cars,"CARS2")
-    this.state = { loading: false };
-  }
-
-  componentDidMount() {
-
   }
 
   render() {
