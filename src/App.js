@@ -1,7 +1,7 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import {Cars} from "./cars"
+import { RoutesWithSesion, RoutesWithoutSesion } from './Components/Routes/Routes';
+import { connect } from 'react-redux';
 
 class App extends React.Component {
 
@@ -11,51 +11,22 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    //EJEMPLO: login
-    const ejUsuario="luciano";
-    const ejClave="sss000";
-    if (Cars.user === ejUsuario && Cars.pass === ejClave){
-      //LoginOK! redirecciono a la pagina de listado!!!
-      console.log("login ok!")
-    }else{
-      console.log("login error")
-      //Genero un error:
-      //throw new Error("Usuario y pass invalido")
-      //y muestro el mensaje
-    }
-
-    let cars = Cars.cars;
-    console.log(cars,"CARS1")
-    //EJEMPLO: alta de de automovil
-    Cars.insertCar({
-      brand: "ford",
-      year: "2020",
-      madein: "usa",
-      maxspeed: "111"
-    });
-    console.log(cars,"CARS2")
+    
   }
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <>
+        {this.props.isAuthenticated ? <RoutesWithSesion /> : <RoutesWithoutSesion />}
+      </>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.auth.isAuthenticated
+  }
+}
+
+export default connect(mapStateToProps)(App);
