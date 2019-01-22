@@ -29,7 +29,6 @@ class Login extends React.Component {
     e.preventDefault();
     const data = {user: this.state.user, pass: this.state.pass}
     const valid = validation(data); 
-
     if (!valid.valid) {
       this.setState({errors: valid.errors})
       return;
@@ -53,7 +52,7 @@ class Login extends React.Component {
     const {errors, user, pass} = this.state;
 
     return(
-      <>
+      <div className="containerLogin">
         <Form onSubmit={this.handleSubmit} className="login-form" id="components-form-demo-normal-login">
           <Form.Item>
             <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" name="user" value={user} onChange={this.inputChangeHandler} />
@@ -74,10 +73,9 @@ class Login extends React.Component {
             message="Error"
             description={error}
             type="error"
-            closable
           />
         ))}
-      </>
+      </div>
     )
   }
 }
