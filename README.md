@@ -1,3 +1,15 @@
+Hola!
+
+Simplemente bajan el proyecto y dentro de la carpeta del mismo ejecutan los comandos:
+1) npm install
+2) npm start
+
+Cualquier inquietud o consulta técnica, no duden en darlas de altas!
+------------------------------------------------------------------
+
+<br/><br/><br/><br/><br/><br/><br/><br/>
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
