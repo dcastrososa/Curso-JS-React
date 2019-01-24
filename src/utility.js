@@ -39,7 +39,7 @@ export const searchIndexCars = (key, cars) => {
 // impide que se escriban letras en un input
 export const preventLetters = e => {
 	let tecla = ( document.all ) ? e.keyCode : e.which;
-  if ( tecla == 13 || tecla == 8 )
+  if ( tecla === 13 || tecla === 8 )
     return true;
   let patron = /[1234567890\d]/;
   let te = String.fromCharCode( tecla );
