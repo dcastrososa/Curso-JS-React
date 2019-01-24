@@ -2,14 +2,12 @@ import * as actionTypes from './../actions/actionTypes';
 import { updateObject } from './../../utility';
 
 const initialState = {
-  isAuthenticated: true,
-  redirect: false
+  isAuthenticated: false, // esta autenticado el usuario?
 }
 
 const setSesion = (state, action) => {
   return updateObject(state, {
-    isAuthenticated: true,
-    redirect: true
+    isAuthenticated: true
   })
 }
 

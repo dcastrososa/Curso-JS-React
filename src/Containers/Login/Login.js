@@ -1,11 +1,12 @@
 import React from 'react';
 import {
-  Form, Icon, Input, Button, Alert
+  Form, Icon, Input, Button, Alert,
+  Card
 } from 'antd';
-import { Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from './../../store/actions/index';
-import { validation, validateData, searchIndexCars } from './validations';
+import { validation, validateData } from './validations';
 
 class Login extends React.Component {
   constructor(props) {
@@ -16,8 +17,8 @@ class Login extends React.Component {
       pass: 'abc123',
       errors: []
     }
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.inputChangeHandler = this.inputChangeHandler.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this); // maneja el envio del formulario
+    this.inputChangeHandler = this.inputChangeHandler.bind(this); // maneja el cambio de los Input
   }
 
   inputChangeHandler(event) {
@@ -29,44 +30,51 @@ class Login extends React.Component {
     e.preventDefault();
     const data = {user: this.state.user, pass: this.state.pass}
     const valid = validation(data); 
+
+    // si el usuario no ha ingresado usuario o pass, muestro el mensaje de error y retorno.
     if (!valid.valid) {
       this.setState({errors: valid.errors})
       return;
     }
 
+    // si vino aca y habian errores, quito los mensajes de error
     this.setState({errors: []});
 
     const validData = validateData(data);
 
+    // si es incorrecto el user o pass, muestro el mensaje de error y retorno
     if (!validData.valid) {
       this.setState({errors: validData.errors})
       return;
     }
 
+    // si fueron validos los datos, ahora esta autenticado
     this.props.onSetSesion();
+    this.props.history.push('/vehicles');
   }
 
   render() {
-    if (this.props.redirect) { return (<Redirect to="/vehicles" />) }
-
     const {errors, user, pass} = this.state;
 
     return(
       <div className="containerLogin">
-        <Form onSubmit={this.handleSubmit} className="login-form" id="components-form-demo-normal-login">
-          <Form.Item>
-            <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" name="user" value={user} onChange={this.inputChangeHandler} />
-          </Form.Item>
-          <Form.Item>
-            <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" name="pass" placeholder="Password" value={pass} onChange={this.inputChangeHandler} />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-form-button">
-              Log in
-            </Button>
-          </Form.Item>
-        </Form>
-
+        <Card className="cardLogin">
+          <p className="titleLogin">ACCOUNT LOGIN</p>
+          <Form onSubmit={this.handleSubmit} className="login-form" id="components-form-demo-normal-login">
+            <Form.Item>
+              <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" name="user" value={user} onChange={this.inputChangeHandler} />
+            </Form.Item>
+            <Form.Item>
+              <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" name="pass" placeholder="Password" value={pass} onChange={this.inputChangeHandler} />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit" className="login-form-button">
+                Log in
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
+        <br />
         {errors.map((error, i) => (
           <Alert
             key={i}
@@ -86,10 +94,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    redirect: state.auth.redirect
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default withRouter(connect(null, mapDispatchToProps)(Login));

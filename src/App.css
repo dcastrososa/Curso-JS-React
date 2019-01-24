@@ -1,12 +1,47 @@
 @import '~antd/dist/antd.css';
 
+body {
+  width: 100%;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+.wrappe {
+  margin-left: 5%;
+  margin-right: 5%;
+  width: 90%;
+  margin-top: 40px;
+  text-align: center;
+}
+
+.title {
+  font-size: 20px;
+}
+
+.btnNewVehicle {
+  width: 300px !important;
+}
+
 .containerLogin
 {
   margin: auto;
   position: absolute;
   top: 0; left: 0; bottom: 0; right: 0;
-  width: 20%;
+  width: 320px;
   height: 400px;
+}
+
+.cardLogin {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
+}
+
+.titleLogin {
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
 }
 
 

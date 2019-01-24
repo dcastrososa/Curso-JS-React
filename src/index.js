@@ -11,17 +11,19 @@ import * as serviceWorker from './serviceWorker';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+// utilice este enfoque porque quiza necesitaba varios reducers, no hizo falta por ahora.
 const rootReducer = combineReducers({
   auth: authReducer
 });
 
+// hice esto porque quiza necesitaba hacer algo asincrono en redux, pero no hizo falta por ahora.
 const store = createStore(rootReducer, composeEnhancers(
   applyMiddleware(thunk)
 ));
 
 const app = (
   <Provider store={store}>
-    <BrowserRouter>
+    <BrowserRouter basename="/Curso-JS-React/build/">
       <App/>
     </BrowserRouter>
   </Provider>

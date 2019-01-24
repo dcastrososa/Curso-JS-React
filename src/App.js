@@ -17,6 +17,7 @@ class App extends React.Component {
   render() {
     return (
       <>
+        {/* No quiero que las rutas para un usuario logueado existan para uno que no lo esta */}
         {this.props.isAuthenticated ? <RoutesWithSesion /> : <RoutesWithoutSesion />}
       </>
     );

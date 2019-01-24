@@ -5,7 +5,7 @@ import Vehicles from './../../Containers/Vehicles/Vehicles';
 
 export const RoutesWithSesion = () => (
   <Switch>
-    <Route path="/vehicles" component={Vehicles} exact />
+    <Route path="/vehicles" component={Vehicles} />
     <Route path="/" component={Login} exact />
     <Redirect to="/" />
   </Switch>
@@ -13,7 +13,7 @@ export const RoutesWithSesion = () => (
 
 export const RoutesWithoutSesion = () => (
   <Switch>
-    <Route to="/" component={Login} exact />
+    <Route path="/" component={Login} exact />
     <Redirect to="/" />
   </Switch>
 )
