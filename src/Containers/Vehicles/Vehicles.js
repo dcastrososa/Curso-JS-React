@@ -89,7 +89,7 @@ class Vehicles extends React.Component {
     this.setState({cars: cars, deleting: true});
 
     try {
-      const xd = await this.fetchDeleteCar(key);
+      await this.fetchDeleteCar(key);
       success(`El vehiculo ha sido eliminado de la lista`);
       this.setState({deleting: false});
       this.getCars();
