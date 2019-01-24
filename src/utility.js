@@ -26,13 +26,7 @@ export const error = text => {
 
 // busca el indice de un carro en un arreglo
 export const searchIndexCars = (key, cars) => {
-  let index = -1;
-  cars.forEach((car, i) => {
-    if (car.key === key) {
-      index = i;
-      return;
-    }
-  })
+  const index = cars.findIndex( car => car.key === key);
 
   if (index === -1) {
     throw "No existe este carro en el arreglo.";
