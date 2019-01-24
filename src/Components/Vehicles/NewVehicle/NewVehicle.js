@@ -2,11 +2,11 @@ import React from 'react';
 import { Card, Form, Input, Alert, Button, Tag, AutoComplete } from 'antd';
 import { validation } from './validations';
 import { countries } from './../../../countries';
-import { preventLetters, getYears } from '../../../utility';
-import {Cars} from './../../../cars';
+import { preventLetters, getYears, URL } from '../../../utility';
 import Tags from './../../../tags';
 import {dataColors} from './../../../dataColors';
 import Fuse from 'fuse.js';
+import axios from 'axios';
 
 class NewVehicle extends React.Component {
   constructor(props) {
@@ -22,6 +22,7 @@ class NewVehicle extends React.Component {
     this.setCountry = this.setCountry.bind(this); // "setea" el valor del pais escogido en el Autocomplete Component
     this.setYear = this.setYear.bind(this); // "setea" el valor del ano escogido en el Autocomplete Component
     this.emptyForm = this.emptyForm.bind(this); // limpia el formulario
+    this.fetchSave = this.fetchSave.bind(this);
   }
 
   getInitialState() {
@@ -88,8 +89,7 @@ class NewVehicle extends React.Component {
       description: this.state.description,
       colors: this.state.colors.getTag().join(' / '),
       ports: this.state.ports,
-      status: 1,
-      id: "xd"
+      status: 1
     };
 
     const valid = validation(data);
@@ -103,13 +103,12 @@ class NewVehicle extends React.Component {
     this.setState({saving: true})
     
     try {
-      let response = await this.fetchSave();
-      Cars.insertCar(data);
+      await this.fetchSave(data);
       this.props.onSave();
       this.emptyForm();
-      this.setState({saving: false})
+      this.setState({saving: false});
     }catch(err) {
-
+      console.log('err', err)
     }
   }
 
@@ -130,7 +129,9 @@ class NewVehicle extends React.Component {
     this.setState(this.getInitialState());
   }
 
-  fetchSave() {
+  fetchSave(data) {
+    const car = data;
+    return axios.post(`${URL}/cars.json`, car);
   }
 
   render() {

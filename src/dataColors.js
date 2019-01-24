@@ -9,5 +9,7 @@ export const dataColors = [
   {name: 'Amarillo'},
   {name: 'Naranja'},
   {name: 'Fucsia'},
-  {name: 'Rosado'}
+  {name: 'Rosado'},
+  {name: 'Rojo'},
+  {name: 'Negro'}
 ]

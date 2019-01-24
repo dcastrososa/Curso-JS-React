@@ -18,6 +18,8 @@ export const success = text => {
 };
 
 
+export const URL = 'https://curso-react-js.firebaseio.com'
+
 // muestra un alert de error
 export const error = text => {
   message.error(text);

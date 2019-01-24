@@ -23,7 +23,7 @@ const store = createStore(rootReducer, composeEnhancers(
 
 const app = (
   <Provider store={store}>
-    <BrowserRouter basename="/Curso-JS-React/build/">
+    <BrowserRouter basename="/">
       <App/>
     </BrowserRouter>
   </Provider>

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Table, Modal, Button, Popconfirm, Spin } from 'antd';
-import { Cars } from './../../cars';
-import { success, error, searchIndexCars } from './../../utility';
+import { success, error, searchIndexCars, URL } from './../../utility';
 import DetailVehicle from './../../Components/Vehicles/DetailVehicle/DetailVehicle';
 import NewVehicle from './../../Components/Vehicles/NewVehicle/NewVehicle';
+import axios from 'axios';
 
 const { Column, ColumnGroup } = Table;
 
@@ -23,7 +23,10 @@ class Vehicles extends React.Component {
 
     // a cada "vehiculo" le agrega una "key" (es necesario para Table Component segun el enfoque que estoy usando)
     // (no investigue la manera de no tener que hacer esto)
-    this.orderCars = this.orderCars.bind(this); 
+    this.fetchGetCars = this.fetchGetCars.bind(this);
+    this.fetchUpdateCar = this.fetchUpdateCar.bind(this);
+    this.fetchDeleteCar = this.fetchDeleteCar.bind(this);
+    this.getCars = this.getCars.bind(this); 
     this.delete = this.delete.bind(this); // eliminar un vehiculo
     this.switchFormNewVehicle = this.switchFormNewVehicle.bind(this); // muestra u oculta el formulario de nuevo vehiculo
     this.switchDetailVehicle = this.switchDetailVehicle.bind(this); // muestra u oculta el detalle de vehiculo
@@ -32,57 +35,72 @@ class Vehicles extends React.Component {
   }
 
   componentDidMount() {
-    this.orderCars()
+    this.getCars()
   }
 
-  orderCars() {
-    let data = []
-    Cars.getCars().forEach( (car, i) => {
-      car.key = car.id;
-      data.push((car))
-    })
-    this.setState({cars: data, loading: false});
+  fetchGetCars() {
+    return axios.get(`${URL}/cars.json`);
   }
 
-  updateStatus(key, newStatus) {
-    let cars = [...this.state.cars]
-    const index = searchIndexCars(key, cars);
+  fetchUpdateCar(key, status) {
+    return axios.patch(`${URL}/cars/${key}/.json`, {status: status})
+  }
+
+  fetchDeleteCar(key) {
+    return axios.delete(`${URL}/cars/${key}/.json`);
+  }
+
+  async getCars() {
+    this.setState({loading: true})
+    try {
+      const response = await this.fetchGetCars();
+      let cars = [];
+      for (let key in response.data) {
+        let car = response.data[key];
+        car.key = key;
+        cars.push(car);
+      }
+      this.setState({cars: cars, loading: false});
+    }catch(err) {
+      error('Vaya ;(, algo salio mal');
+    }
+  }
+
+  async updateStatus(key, newStatus) {
+    let cars = [...this.state. cars];
+    const index = searchIndexCars(key, cars)
     cars[index].editing = true;
-    this.setState({cars: cars, editing: true})
+    this.setState({cars: cars, editing: true});
 
-    setTimeout(() => {
-      try {
-        cars[index].status = newStatus;
-        cars[index].editing = false;
-        this.setState({cars: cars, editing: false})
-        success(`El vehiculo ha sido ${newStatus === 1 ? 'Activado' : 'Desactivado'}`)
-      }catch(err) {
-        error('Vaya ;(, algo salio mal')
-      }
-    }, 5000)
+    try {
+      await this.fetchUpdateCar(key, newStatus);
+      this.setState({editing: false});
+      success(`El vehiculo ha sido ${newStatus === 1 ? 'Activado' : 'Desactivado'}`);
+      this.getCars();
+    }catch(err) {
+      error('Vaya ;(, algo salio mal')
+    }
   }
 
-  delete(key) {
-    let prevCars = [...this.state.cars];
-    const index = searchIndexCars(key, prevCars);
-    prevCars[index].deleting = true;
-    this.setState({prevCars: prevCars, deleting: true})
+  async delete(key) {
+    let cars = [...this.state.cars];
+    const index = searchIndexCars(key, cars);
+    cars[index].deleting = true;
+    this.setState({cars: cars, deleting: true});
 
-    setTimeout(() => {
-      try {
-        prevCars[index].deleting = true;
-        prevCars.splice(index, 1)
-        this.setState({cars: prevCars, deleting: false});
-        success('El vehiculo ha sido eliminado de la lista.')
-      }catch(err) {
-        error('Vaya ;(, algo salio mal')
-      }
-    }, 3000)
+    try {
+      const xd = await this.fetchDeleteCar(key);
+      success(`El vehiculo ha sido eliminado de la lista`);
+      this.setState({deleting: false});
+      this.getCars();
+    }catch(err) {
+      error(`Vaya ;(, algo salio mal)`)
+    }
   }
 
   vehicleSaved() {
     this.switchFormNewVehicle();
-    this.orderCars();
+    this.getCars();
     success('Se ha agregado un nuevo vehiculo a la lista.')
   }
 
@@ -151,8 +169,8 @@ class Vehicles extends React.Component {
             render={(record) => (
               (record.status === 0 ? 
                 // No quiero que el usuario pueda dar click a este vehiculo si se esta eliminando algun registro
-                <Button type="primary" onClick={this.updateStatus.bind(this, record.key, 1)} loading={record.editing} disabled={deleting}>Activar</Button> : 
-                <Button type="danger" onClick={this.updateStatus.bind(this, record.key, 0)} loading={record.editing} disabled={deleting}>Desactivar</Button>
+                <Button type="primary" onClick={this.updateStatus.bind(this, record.key, 1)} loading={record.editing} disabled={deleting || editing}>Activar</Button> : 
+                <Button type="danger" onClick={this.updateStatus.bind(this, record.key, 0)} loading={record.editing} disabled={deleting || editing}>Desactivar</Button>
               )
             )}
           />

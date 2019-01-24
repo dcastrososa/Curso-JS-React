@@ -35,7 +35,7 @@ export const validation = data => {
   return {valid: valid, errors: errors}
 }
 
-export const validProperty = (data, key, value) => {
+const validProperty = (data, key, value) => {
   let valid = false;
   data.forEach( element => {
     if (element[key].toString() === value.toString()) {

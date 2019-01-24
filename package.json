@@ -1,12 +1,14 @@
 {
   "name": "tpcurso",
-  "homepage": "/Curso-JS-React/build/",
+  "homepage": "/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "antd": "^3.12.4",
     "antd-init": "^2.0.7",
+    "axios": "^0.18.0",
     "fuse.js": "^3.3.0",
+    "prop-types": "^15.6.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",
